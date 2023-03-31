@@ -14,6 +14,11 @@ namespace TurnBaseStrategy.Core
 
         private Vector3 targetPosition;
 
+        private void Awake()
+        {
+            targetPosition = transform.position;
+        }
+
 
         // ----------------------------------------------------------------------------
         // Unity Enging Methods
@@ -33,18 +38,13 @@ namespace TurnBaseStrategy.Core
             {
                 unitAnimator.SetBool("IsWalking", false);
             }
-
-            if (Input.GetMouseButtonDown(0))
-            {
-                Move(MouseWorld.GetPosition());
-            }
         }
 
         // ----------------------------------------------------------------------------
         // Custom Methods
         // ----------------------------------------------------------------------------
 
-        private void Move(Vector3 targetPosition)
+        public void Move(Vector3 targetPosition)
         {
             this.targetPosition = targetPosition;
         }
