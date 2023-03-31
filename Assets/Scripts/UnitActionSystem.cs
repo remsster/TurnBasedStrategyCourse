@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace TurnBaseStrategy.Core
@@ -6,6 +7,11 @@ namespace TurnBaseStrategy.Core
     {
         [SerializeField] private Unit selectedUnit;
         [SerializeField] private LayerMask unitLayerMask;
+
+        public Unit SelectedUnit => selectedUnit;
+
+
+        public event EventHandler OnSelectedUnitChanged;
 
         // ----------------------------------------------------------------------------
         // Unity Enging Methods
@@ -31,11 +37,17 @@ namespace TurnBaseStrategy.Core
             {
                 if(raycastHit.transform.TryGetComponent<Unit>(out Unit unit))
                 {
-                    selectedUnit = unit;
+                    SetSelectedUnit(unit);
                     return true;
                 }
             }
             return false;
+        }
+
+        private void SetSelectedUnit(Unit unit)
+        {
+            selectedUnit = unit;
+            OnSelectedUnitChanged.Invoke(this,EventArgs.Empty);
         }
 
     }
