@@ -8,14 +8,28 @@ namespace TurnBaseStrategy.Core
         [SerializeField] private Unit selectedUnit;
         [SerializeField] private LayerMask unitLayerMask;
 
-        public Unit SelectedUnit => selectedUnit;
+        public static UnitActionSystem Instance { get; private set; }
 
+        public Unit SelectedUnit => selectedUnit;
 
         public event EventHandler OnSelectedUnitChanged;
 
         // ----------------------------------------------------------------------------
         // Unity Enging Methods
         // ----------------------------------------------------------------------------
+
+        private void Awake()
+        {
+            if (Instance != null)
+            {
+                Debug.LogError("There is more than one UnitActionSystem " + transform + " - " + Instance);
+                Destroy(gameObject);
+                return;
+            }
+            Instance = this;
+
+        }
+
 
         private void Update()
         {
