@@ -29,7 +29,7 @@ namespace TurnBaseStrategy.Grid
 
         public Vector3 GetWorldPosition(GridPosition gridPosition)
         {
-            return new Vector3(gridPosition.x, 0, gridPosition.z) * cellSize;
+            return new Vector3(gridPosition.X, 0, gridPosition.Z) * cellSize;
         }
 
         public GridPosition GetGridPosition(Vector3 worldPosition)
@@ -55,7 +55,7 @@ namespace TurnBaseStrategy.Grid
 
         public GridObject GetGridObject(GridPosition gridPosition)
         {
-            return gridObjectArray[gridPosition.x, gridPosition.z];
+            return gridObjectArray[gridPosition.X, gridPosition.Z];
         }
     }
 }

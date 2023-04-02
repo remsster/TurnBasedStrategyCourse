@@ -9,10 +9,18 @@ namespace TurnBaseStrategy.Grid
         private GridObject gridObject;
         [SerializeField] private TextMeshPro debugText;
 
+        // ----------------------------------------------------------------------------
+        // Unity Enging Methods
+        // ----------------------------------------------------------------------------
+
         private void Update()
         {
             debugText.text = gridObject.ToString();
         }
+
+        // ----------------------------------------------------------------------------
+        // Custom Methods
+        // ----------------------------------------------------------------------------
 
         public void SetGridObject(GridObject gridObject)
         {

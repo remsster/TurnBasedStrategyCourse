@@ -8,9 +8,8 @@ namespace TurnBaseStrategy.Core
         [SerializeField] private Unit selectedUnit;
         [SerializeField] private LayerMask unitLayerMask;
 
-        public static UnitActionSystem Instance { get; private set; }
-
         public Unit SelectedUnit => selectedUnit;
+        public static UnitActionSystem Instance { get; private set; }
 
         public event EventHandler OnSelectedUnitChanged;
 
@@ -27,9 +26,7 @@ namespace TurnBaseStrategy.Core
                 return;
             }
             Instance = this;
-
         }
-
 
         private void Update()
         {
