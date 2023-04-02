@@ -31,5 +31,8 @@ namespace TurnBaseStrategy.Grid
 
         // IEquatable
         public bool Equals(GridPosition other) => this == other;
+
+        public static GridPosition operator +(GridPosition a, GridPosition b) => new GridPosition(a.X + b.X, a.Z + b.Z);
+        public static GridPosition operator -(GridPosition a, GridPosition b) => new GridPosition(a.X - b.X, a.Z - b.Z);
     }
 }
