@@ -719,6 +719,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 10
   rotationSpeed: 100
+  virtualCamera: {fileID: 52419600}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
