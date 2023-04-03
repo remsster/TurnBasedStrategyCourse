@@ -41,6 +41,12 @@ namespace TurnBaseStrategy.Core
                     selectedUnit.GetMoveAction().Move(mouseGridPosition);
                 }
             }
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                Debug.Log("Should Spin");
+                selectedUnit.GetSpinAction().Spin();
+            }
         }
 
         // ----------------------------------------------------------------------------

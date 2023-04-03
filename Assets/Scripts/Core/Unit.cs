@@ -1,12 +1,15 @@
 using TurnBaseStrategy.Grid;
 using UnityEngine;
 
+using TurnBaseStrategy.Action;
+
 namespace TurnBaseStrategy.Core
 {
     public class Unit : MonoBehaviour
     {
         private GridPosition gridPosition;
         private MoveAction moveAction;
+        private SpinAction spinAction;
 
         public GridPosition GridPosition => gridPosition;
 
@@ -17,6 +20,7 @@ namespace TurnBaseStrategy.Core
         private void Awake()
         {
             moveAction = GetComponent<MoveAction>();
+            spinAction = GetComponent<SpinAction>();
             
         }
 
@@ -42,6 +46,8 @@ namespace TurnBaseStrategy.Core
         // ----------------------------------------------------------------------------
         // Custom Methods
         // ----------------------------------------------------------------------------
+
+        public SpinAction GetSpinAction() => spinAction;
 
         public MoveAction GetMoveAction()
         {

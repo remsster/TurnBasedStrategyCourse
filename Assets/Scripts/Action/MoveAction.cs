@@ -4,9 +4,9 @@ using UnityEngine;
 using TurnBaseStrategy.Grid;
 
 
-namespace TurnBaseStrategy.Core
+namespace TurnBaseStrategy.Action
 {
-    public class MoveAction : MonoBehaviour
+    public class MoveAction : BaseAction
     {
 
         [SerializeField] private float moveSpeed = 4f;
@@ -18,36 +18,33 @@ namespace TurnBaseStrategy.Core
         [SerializeField] private Animator unitAnimator;
 
         private Vector3 targetPosition;
-        private Unit unit;
 
 
         // ----------------------------------------------------------------------------
         // Unity Engine Methods
         // ----------------------------------------------------------------------------
 
-        private void Awake()
+        protected override void Awake()
         {
-            unit = GetComponent<Unit>();
-        }
-
-        private void Start()
-        {
+            base.Awake();
             targetPosition = transform.position;
         }
 
         private void Update()
         {
+            if (!isActive) return;
+            Vector3 moveDirection = (targetPosition - transform.position).normalized;
             if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
             {
-                Vector3 moveDirection = (targetPosition - transform.position).normalized;
                 transform.position += moveDirection * moveSpeed * Time.deltaTime;
-                transform.forward = Vector3.Lerp(transform.forward, moveDirection, rotateSpeed * Time.deltaTime);
                 unitAnimator.SetBool("IsWalking", true);
             }
             else
             {
                 unitAnimator.SetBool("IsWalking", false);
+                isActive = false;
             }
+            transform.forward = Vector3.Lerp(transform.forward, moveDirection, rotateSpeed * Time.deltaTime);
         }
 
         // ----------------------------------------------------------------------------
@@ -57,6 +54,7 @@ namespace TurnBaseStrategy.Core
         public void Move(GridPosition gridPosition)
         {
             this.targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+            isActive = true;
         }
 
         public bool IsValidActionGridPosition(GridPosition gridPosition)
