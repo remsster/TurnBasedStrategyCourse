@@ -1,7 +1,8 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 using TurnBaseStrategy.Core;
-using System.Collections.Generic;
+using UnityEngine.UI;
 
 namespace TurnBaseStrategy.Grid
 {
@@ -36,6 +37,10 @@ namespace TurnBaseStrategy.Grid
         // ----------------------------------------------------------------------------
 
         // -- Public --
+
+        public int GetWidth() => gridSystem.Width;
+
+        public int GetHeight() => gridSystem.Height;
 
         public GridPosition GetGridPosition(Vector3 worldPosition) => gridSystem.GetGridPosition(worldPosition);
 

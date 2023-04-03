@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using TurnBaseStrategy.Grid;
 using UnityEngine;
-using UnityEngine.UIElements;
+
+using TurnBaseStrategy.Grid;
+
 
 namespace TurnBaseStrategy.Core
 {

@@ -8,6 +8,9 @@ namespace TurnBaseStrategy.Grid
         private int height;
         private float cellSize;
 
+        public int Width => width;
+        public int Height => height;
+
         private GridObject[,] gridObjectArray;
 
         public GridSystem(int width, int height,float cellSize)
