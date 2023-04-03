@@ -39,6 +39,8 @@ namespace TurnBaseStrategy.Grid
 
         public GridPosition GetGridPosition(Vector3 worldPosition) => gridSystem.GetGridPosition(worldPosition);
 
+        public Vector3 GetWorldPosition(GridPosition gridPosition) => gridSystem.GetWorldPosition(gridPosition);
+
         public void AddUnitAtGridPosition(GridPosition gridPosition, Unit unit)
         {
             GridObject gridObject = gridSystem.GetGridObject(gridPosition);
@@ -62,6 +64,14 @@ namespace TurnBaseStrategy.Grid
         {
             RemoveUnitAtGridPosition(from,unit);
             AddUnitAtGridPosition(to, unit);
+        }
+
+        public bool IsValidGridPosition(GridPosition gridPosition) => gridSystem.IsValidGridPosition(gridPosition);
+
+        public bool HasAnyUnitOnGridPosition(GridPosition gridPosition)
+        {
+            GridObject gridObject = gridSystem.GetGridObject(gridPosition);
+            return gridObject.HasAnyUnit();
         }
     }
 }

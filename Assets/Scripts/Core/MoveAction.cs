@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using TurnBaseStrategy.Grid;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -53,11 +54,15 @@ namespace TurnBaseStrategy.Core
         // Custom Methods
         // ----------------------------------------------------------------------------
 
-        
-
-        public void Move(Vector3 targetPosition)
+        public void Move(GridPosition gridPosition)
         {
-            this.targetPosition = targetPosition;
+            this.targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+        }
+
+        public bool IsValidActionGridPosition(GridPosition gridPosition)
+        {
+            List<GridPosition> validGridPositionList = GetValidActionGridPostionList();
+            return validGridPositionList.Contains(gridPosition);
         }
 
         public List<GridPosition> GetValidActionGridPostionList()
@@ -72,7 +77,17 @@ namespace TurnBaseStrategy.Core
                 {
                     GridPosition offsetGridPosition = new GridPosition(x, z);
                     GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
-                    Debug.Log(testGridPosition);
+
+                    // Checks
+
+                    // check if the position is on the grid
+                    if(!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) continue;
+                    // check if the unit position is the current grid position
+                    if (unit.GridPosition == testGridPosition) continue;
+                    // check if there is another unit on the grid movement area
+                    if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition)) continue;
+
+                    validGridPositionList.Add(testGridPosition);
                 }
             }
 
