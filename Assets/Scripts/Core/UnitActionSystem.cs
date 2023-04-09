@@ -10,10 +10,13 @@ namespace TurnBaseStrategy.Core
         [SerializeField] private Unit selectedUnit;
         [SerializeField] private LayerMask unitLayerMask;
 
+        private bool isBusy;
+
         public Unit SelectedUnit => selectedUnit;
         public static UnitActionSystem Instance { get; private set; }
 
         public event EventHandler OnSelectedUnitChanged;
+
 
         // ----------------------------------------------------------------------------
         // Unity Enging Methods
@@ -32,26 +35,34 @@ namespace TurnBaseStrategy.Core
 
         private void Update()
         {
+            if (isBusy) return;
             if (Input.GetMouseButtonDown(0))
             {
                 if (TryHandleUnitSelection()) { return; }
                 GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
                 if (selectedUnit.GetMoveAction().IsValidActionGridPosition(mouseGridPosition))
                 {
-                    selectedUnit.GetMoveAction().Move(mouseGridPosition);
+                    SetBusy(true);
+                    selectedUnit.GetMoveAction().Move(mouseGridPosition, SetBusy);
                 }
             }
 
             if (Input.GetMouseButtonDown(1))
             {
-                Debug.Log("Should Spin");
-                selectedUnit.GetSpinAction().Spin();
+                SetBusy(true);
+                selectedUnit.GetSpinAction().Spin(SetBusy);
             }
         }
 
         // ----------------------------------------------------------------------------
         // Custom Methods
         // ----------------------------------------------------------------------------
+
+        private void SetBusy(bool value)
+        {
+            isBusy = value;
+        }
+        
 
         private bool TryHandleUnitSelection()
         {

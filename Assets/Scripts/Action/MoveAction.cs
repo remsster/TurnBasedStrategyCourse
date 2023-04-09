@@ -43,6 +43,7 @@ namespace TurnBaseStrategy.Action
             {
                 unitAnimator.SetBool("IsWalking", false);
                 isActive = false;
+                onActionComplete(false);
             }
             transform.forward = Vector3.Lerp(transform.forward, moveDirection, rotateSpeed * Time.deltaTime);
         }
@@ -51,8 +52,9 @@ namespace TurnBaseStrategy.Action
         // Custom Methods
         // ----------------------------------------------------------------------------
 
-        public void Move(GridPosition gridPosition)
+        public void Move(GridPosition gridPosition, System.Action<bool> onActionComplete)
         {
+            this.onActionComplete = onActionComplete;
             this.targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
             isActive = true;
         }

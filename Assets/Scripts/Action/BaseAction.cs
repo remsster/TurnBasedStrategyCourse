@@ -9,6 +9,8 @@ namespace TurnBaseStrategy.Action
 
         protected bool isActive;
 
+        protected System.Action<bool> onActionComplete;
+
         protected virtual void Awake()
         {
             unit = GetComponent<Unit>(); 
