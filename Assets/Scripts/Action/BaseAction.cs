@@ -15,5 +15,7 @@ namespace TurnBaseStrategy.Action
         {
             unit = GetComponent<Unit>(); 
         }
+
+        public abstract string GetActionName();
     }
 }

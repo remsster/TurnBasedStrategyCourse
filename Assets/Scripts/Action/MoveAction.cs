@@ -52,6 +52,9 @@ namespace TurnBaseStrategy.Action
         // Custom Methods
         // ----------------------------------------------------------------------------
 
+        public override string GetActionName() => "Move";
+        
+
         public void Move(GridPosition gridPosition, System.Action<bool> onActionComplete)
         {
             this.onActionComplete = onActionComplete;

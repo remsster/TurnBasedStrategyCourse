@@ -29,6 +29,8 @@ namespace TurnBaseStrategy.Action
             }
         }
 
+        public override string GetActionName() => "Spin";
+
         //public void Spin(SpinCompleteDelegate onSpinComplete)
         public void Spin(Action<bool> onActionComplete)
         {

@@ -10,6 +10,7 @@ namespace TurnBaseStrategy.Core
         private GridPosition gridPosition;
         private MoveAction moveAction;
         private SpinAction spinAction;
+        private BaseAction[] baseActionArray;
 
         public GridPosition GridPosition => gridPosition;
 
@@ -21,6 +22,7 @@ namespace TurnBaseStrategy.Core
         {
             moveAction = GetComponent<MoveAction>();
             spinAction = GetComponent<SpinAction>();
+            baseActionArray = GetComponents<BaseAction>();
             
         }
 
@@ -44,6 +46,15 @@ namespace TurnBaseStrategy.Core
         }
 
         // ----------------------------------------------------------------------------
+        // Overridden Methods
+        // ----------------------------------------------------------------------------
+
+        public override string ToString()
+        {
+            return gameObject.name;
+        }
+
+        // ----------------------------------------------------------------------------
         // Custom Methods
         // ----------------------------------------------------------------------------
 
@@ -54,10 +65,9 @@ namespace TurnBaseStrategy.Core
             return moveAction;
         }
 
-        public override string ToString()
-        {
-            return gameObject.name;
-        }
+        public BaseAction[] GetBaseActionArray() => baseActionArray;
+        
+
 
         
     }
