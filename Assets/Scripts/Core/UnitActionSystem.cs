@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 
 using TurnBaseStrategy.Grid;
+using TurnBaseStrategy.Action;
 
 namespace TurnBaseStrategy.Core
 {
@@ -11,6 +12,7 @@ namespace TurnBaseStrategy.Core
         [SerializeField] private LayerMask unitLayerMask;
 
         private bool isBusy;
+        private BaseAction selectedAction;
 
         public Unit SelectedUnit => selectedUnit;
         public static UnitActionSystem Instance { get; private set; }
@@ -33,30 +35,44 @@ namespace TurnBaseStrategy.Core
             Instance = this;
         }
 
+        private void Start()
+        {
+            SetSelectedUnit(selectedUnit);
+        }
+
         private void Update()
         {
             if (isBusy) return;
-            if (Input.GetMouseButtonDown(0))
-            {
-                if (TryHandleUnitSelection()) { return; }
-                GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
-                if (selectedUnit.GetMoveAction().IsValidActionGridPosition(mouseGridPosition))
-                {
-                    SetBusy(true);
-                    selectedUnit.GetMoveAction().Move(mouseGridPosition, SetBusy);
-                }
-            }
+            if (TryHandleUnitSelection()) { return; }   
 
-            if (Input.GetMouseButtonDown(1))
-            {
-                SetBusy(true);
-                selectedUnit.GetSpinAction().Spin(SetBusy);
-            }
+            HandleSelectedAction();
         }
 
         // ----------------------------------------------------------------------------
         // Custom Methods
         // ----------------------------------------------------------------------------
+
+        private void HandleSelectedAction()
+        {
+            GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
+            if (Input.GetMouseButtonDown(0))
+            {
+                switch (selectedAction)
+                {
+                    case MoveAction moveAction:
+                        if (selectedUnit.GetMoveAction().IsValidActionGridPosition(mouseGridPosition))
+                        {
+                            SetBusy(true);
+                            selectedUnit.GetMoveAction().Move(mouseGridPosition, SetBusy);
+                        }
+                        break;
+                    case SpinAction spinAction:
+                        SetBusy(true);
+                        selectedUnit.GetSpinAction().Spin(SetBusy);
+                        break;
+                }
+            }
+        }
 
         private void SetBusy(bool value)
         {
@@ -66,13 +82,16 @@ namespace TurnBaseStrategy.Core
 
         private bool TryHandleUnitSelection()
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, unitLayerMask))
+            if (Input.GetMouseButtonDown(1))
             {
-                if(raycastHit.transform.TryGetComponent<Unit>(out Unit unit))
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, unitLayerMask))
                 {
-                    SetSelectedUnit(unit);
-                    return true;
+                    if(raycastHit.transform.TryGetComponent<Unit>(out Unit unit))
+                    {
+                        SetSelectedUnit(unit);
+                        return true;
+                    }
                 }
             }
             return false;
@@ -81,9 +100,14 @@ namespace TurnBaseStrategy.Core
         private void SetSelectedUnit(Unit unit)
         {
             selectedUnit = unit;
+            SetSelectedAction(unit.GetMoveAction());
             OnSelectedUnitChanged.Invoke(this,EventArgs.Empty);
         }
 
+        public void SetSelectedAction(BaseAction baseAction)
+        {
+            selectedAction = baseAction;
+        }
     }
 }
 

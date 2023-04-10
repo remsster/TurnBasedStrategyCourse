@@ -2,6 +2,7 @@ using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
 using TurnBaseStrategy.Action;
+using TurnBaseStrategy.Core;
 
 namespace TurnBaseStrategy.UI
 {
@@ -13,6 +14,9 @@ namespace TurnBaseStrategy.UI
         public void SetBaseAction(BaseAction baseAction)
         {
             textMeshPro.text = baseAction.GetActionName().ToUpper();
+            button.onClick.AddListener(() => {
+                UnitActionSystem.Instance.SetSelectedAction(baseAction);
+            });
         }
                 
     }
