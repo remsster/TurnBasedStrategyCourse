@@ -19,6 +19,7 @@ namespace TurnBaseStrategy.Core
         public static UnitActionSystem Instance { get; private set; }
 
         public event EventHandler OnSelectedUnitChanged;
+        public event EventHandler OnSelectedActionChanged;
 
 
         // ----------------------------------------------------------------------------
@@ -112,12 +113,13 @@ namespace TurnBaseStrategy.Core
         {
             selectedUnit = unit;
             SetSelectedAction(unit.GetMoveAction());
-            OnSelectedUnitChanged.Invoke(this,EventArgs.Empty);
+            OnSelectedUnitChanged?.Invoke(this,EventArgs.Empty);
         }
 
         public void SetSelectedAction(BaseAction baseAction)
         {
             selectedAction = baseAction;
+            OnSelectedActionChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public BaseAction GetSelectedAction() => selectedAction;
