@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 
 using TurnBaseStrategy.Grid;
 using TurnBaseStrategy.Action;
+using System.Runtime.CompilerServices;
 
 namespace TurnBaseStrategy.Core
 {
@@ -20,6 +21,7 @@ namespace TurnBaseStrategy.Core
 
         public event EventHandler OnSelectedUnitChanged;
         public event EventHandler OnSelectedActionChanged;
+        public event EventHandler<bool> OnBusyChanged;
 
 
         // ----------------------------------------------------------------------------
@@ -88,6 +90,7 @@ namespace TurnBaseStrategy.Core
         private void SetBusy(bool value)
         {
             isBusy = value;
+            OnBusyChanged?.Invoke(this, isBusy);
         }
         
 
