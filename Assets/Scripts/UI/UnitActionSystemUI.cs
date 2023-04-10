@@ -24,16 +24,16 @@ namespace TurnBaseStrategy.UI
 
         private void Start()
         {
-            CreateUnitActionButtons();
-            UpdateSelectedVisual();
-            UpdateActionPoints();
-        }
 
-        private void OnEnable()
-        {
             UnitActionSystem.Instance.OnSelectedUnitChanged += UnitActionSystem_OnSelectedUnitChanged;
             UnitActionSystem.Instance.OnSelectedActionChanged += UnitActionSystem_OnSelectedActionChanged;
             UnitActionSystem.Instance.OnActionStart += UnitActionSystem_OnActionStart;
+            TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
+            Unit.OnAnyActionPointsChanged += Unit_OnAnyActionPointsChanged;
+
+            CreateUnitActionButtons();
+            UpdateSelectedVisual();
+            UpdateActionPoints();
         }
 
         private void CreateUnitActionButtons()
@@ -84,6 +84,20 @@ namespace TurnBaseStrategy.UI
         {
             Unit selectedUnit = UnitActionSystem.Instance.SelectedUnit;
             actionPointsText.text = "Action Points: " + selectedUnit.GetActionPoints();
+        }
+        private void TurnSystem_OnTurnChanged(object senderm, EventArgs e)
+        {
+            UpdateActionPoints();
+        }
+
+        /// <summary>
+        /// Action points will be updated when changed for any unit, not just the selected unit
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Unit_OnAnyActionPointsChanged(object sender, EventArgs e)
+        {
+            UpdateActionPoints();
         }
     }
 }

@@ -2,16 +2,21 @@ using UnityEngine;
 
 using TurnBaseStrategy.Grid;
 using TurnBaseStrategy.Action;
+using System;
 
 namespace TurnBaseStrategy.Core
 {
     public class Unit : MonoBehaviour
     {
+        private const int ACTION_POINTS_MAX = 2;
+
         private GridPosition gridPosition;
         private MoveAction moveAction;
         private SpinAction spinAction;
         private BaseAction[] baseActionArray;
         private int actionPoints = 2;
+
+        public static event EventHandler OnAnyActionPointsChanged;
 
         public GridPosition GridPosition => gridPosition;
 
@@ -31,6 +36,7 @@ namespace TurnBaseStrategy.Core
         {
             gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
             LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
+            TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
         }
 
         private void Update()
@@ -63,6 +69,13 @@ namespace TurnBaseStrategy.Core
         private void SpendActionPoints(int amount)
         {
             actionPoints -= amount;
+            OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
+        {
+            actionPoints = ACTION_POINTS_MAX;
+            OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
         }
 
         // -- Public --
@@ -80,7 +93,6 @@ namespace TurnBaseStrategy.Core
                 return true;
             }
             return false;
-
         }
 
         public bool CanSpendActionPointsToTakeAction(BaseAction baseAction)
