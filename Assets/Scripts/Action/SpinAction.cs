@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
-
+using TurnBaseStrategy.Grid;
+using System.Collections.Generic;
 
 namespace TurnBaseStrategy.Action
 {
@@ -32,12 +33,19 @@ namespace TurnBaseStrategy.Action
         public override string GetActionName() => "Spin";
 
         //public void Spin(SpinCompleteDelegate onSpinComplete)
-        public void Spin(Action<bool> onActionComplete)
+        public override void TakeAction(GridPosition gridPosition, Action<bool> onActionComplete)
         {
             isActive = true;
             totalSpinAmount = 0;
             this.onActionComplete = onActionComplete;
             
+        }
+
+        public override List<GridPosition> GetValidActionGridPostionList()
+        {
+            List<GridPosition> validGridPositionList = new List<GridPosition>();
+            GridPosition unitGridPosition = unit.GridPosition;
+            return new List<GridPosition> { unitGridPosition };
         }
     }
 }

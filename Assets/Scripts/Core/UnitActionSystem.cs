@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 using TurnBaseStrategy.Grid;
 using TurnBaseStrategy.Action;
@@ -43,6 +44,8 @@ namespace TurnBaseStrategy.Core
         private void Update()
         {
             if (isBusy) return;
+            // returns if mouse is over a ui button
+            if (EventSystem.current.IsPointerOverGameObject()) { return; }
             if (TryHandleUnitSelection()) { return; }   
 
             HandleSelectedAction();
@@ -54,23 +57,30 @@ namespace TurnBaseStrategy.Core
 
         private void HandleSelectedAction()
         {
-            GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
             if (Input.GetMouseButtonDown(0))
             {
-                switch (selectedAction)
+                GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
+                if (selectedAction.IsValidActionGridPosition(mouseGridPosition))
                 {
-                    case MoveAction moveAction:
-                        if (selectedUnit.GetMoveAction().IsValidActionGridPosition(mouseGridPosition))
-                        {
-                            SetBusy(true);
-                            selectedUnit.GetMoveAction().Move(mouseGridPosition, SetBusy);
-                        }
-                        break;
-                    case SpinAction spinAction:
-                        SetBusy(true);
-                        selectedUnit.GetSpinAction().Spin(SetBusy);
-                        break;
+                    SetBusy(true);
+                    selectedAction.TakeAction(mouseGridPosition,SetBusy);
                 }
+
+
+                //switch (selectedAction)
+                //{
+                //    case MoveAction moveAction:
+                //        if (selectedUnit.GetMoveAction().IsValidActionGridPosition(mouseGridPosition))
+                //        {
+                //            SetBusy(true);
+                //            selectedUnit.GetMoveAction().Move(mouseGridPosition, SetBusy);
+                //        }
+                //        break;
+                //    case SpinAction spinAction:
+                //        SetBusy(true);
+                //        selectedUnit.GetSpinAction().Spin(SetBusy);
+                //        break;
+                //}
             }
         }
 
@@ -82,13 +92,14 @@ namespace TurnBaseStrategy.Core
 
         private bool TryHandleUnitSelection()
         {
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(0))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, unitLayerMask))
                 {
                     if(raycastHit.transform.TryGetComponent<Unit>(out Unit unit))
                     {
+                        if (unit == selectedUnit) return false;
                         SetSelectedUnit(unit);
                         return true;
                     }
@@ -108,6 +119,8 @@ namespace TurnBaseStrategy.Core
         {
             selectedAction = baseAction;
         }
+
+        public BaseAction GetSelectedAction() => selectedAction;
     }
 }
 

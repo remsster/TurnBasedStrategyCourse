@@ -55,20 +55,14 @@ namespace TurnBaseStrategy.Action
         public override string GetActionName() => "Move";
         
 
-        public void Move(GridPosition gridPosition, System.Action<bool> onActionComplete)
+        public override void TakeAction(GridPosition gridPosition, System.Action<bool> onActionComplete)
         {
             this.onActionComplete = onActionComplete;
             this.targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
             isActive = true;
         }
 
-        public bool IsValidActionGridPosition(GridPosition gridPosition)
-        {
-            List<GridPosition> validGridPositionList = GetValidActionGridPostionList();
-            return validGridPositionList.Contains(gridPosition);
-        }
-
-        public List<GridPosition> GetValidActionGridPostionList()
+        public override List<GridPosition> GetValidActionGridPostionList()
         {
 
             List<GridPosition> validGridPositionList = new List<GridPosition>();

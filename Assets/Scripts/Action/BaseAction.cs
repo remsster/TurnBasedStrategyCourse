@@ -1,4 +1,7 @@
+using System;
+using System.Collections.Generic;
 using TurnBaseStrategy.Core;
+using TurnBaseStrategy.Grid;
 using UnityEngine;
 
 namespace TurnBaseStrategy.Action
@@ -17,5 +20,16 @@ namespace TurnBaseStrategy.Action
         }
 
         public abstract string GetActionName();
+
+        public abstract void TakeAction(GridPosition gridPosition, System.Action<bool> onActionComplete);
+
+        public abstract List<GridPosition> GetValidActionGridPostionList();
+
+        public virtual bool IsValidActionGridPosition(GridPosition gridPosition)
+        {
+            List<GridPosition> validGridPositionList = GetValidActionGridPostionList();
+            return validGridPositionList.Contains(gridPosition);
+        }
+
     }
 }

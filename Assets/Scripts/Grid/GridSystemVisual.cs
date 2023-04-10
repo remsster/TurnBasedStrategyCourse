@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TurnBaseStrategy.Action;
 using TurnBaseStrategy.Core;
 using UnityEngine;
 
@@ -75,8 +76,8 @@ namespace TurnBaseStrategy.Grid
         private void UpdateGridVisual()
         {
             GridSystemVisual.Instance.HideAllGridPositions();
-            Unit selectedUnit = UnitActionSystem.Instance.SelectedUnit;
-            GridSystemVisual.Instance.ShowAllGridPositions(selectedUnit.GetMoveAction().GetValidActionGridPostionList());
+            BaseAction selectedAction = UnitActionSystem.Instance.GetSelectedAction();
+            GridSystemVisual.Instance.ShowAllGridPositions(selectedAction.GetValidActionGridPostionList());
         }
 
 
