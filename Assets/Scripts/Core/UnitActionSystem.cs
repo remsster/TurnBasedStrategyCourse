@@ -22,6 +22,7 @@ namespace TurnBaseStrategy.Core
         public event EventHandler OnSelectedUnitChanged;
         public event EventHandler OnSelectedActionChanged;
         public event EventHandler<bool> OnBusyChanged;
+        public event EventHandler OnActionStart;
 
 
         // ----------------------------------------------------------------------------
@@ -63,27 +64,19 @@ namespace TurnBaseStrategy.Core
             if (Input.GetMouseButtonDown(0))
             {
                 GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
+
                 if (selectedAction.IsValidActionGridPosition(mouseGridPosition))
                 {
-                    SetBusy(true);
-                    selectedAction.TakeAction(mouseGridPosition,SetBusy);
+                    if (selectedUnit.TrySpendActionPointsToTakeAction(selectedAction))
+                    {
+                        SetBusy(true);
+                        selectedAction.TakeAction(mouseGridPosition,SetBusy);
+                        OnActionStart?.Invoke(this,EventArgs.Empty);
+                    }
                 }
 
 
-                //switch (selectedAction)
-                //{
-                //    case MoveAction moveAction:
-                //        if (selectedUnit.GetMoveAction().IsValidActionGridPosition(mouseGridPosition))
-                //        {
-                //            SetBusy(true);
-                //            selectedUnit.GetMoveAction().Move(mouseGridPosition, SetBusy);
-                //        }
-                //        break;
-                //    case SpinAction spinAction:
-                //        SetBusy(true);
-                //        selectedUnit.GetSpinAction().Spin(SetBusy);
-                //        break;
-                //}
+                
             }
         }
 

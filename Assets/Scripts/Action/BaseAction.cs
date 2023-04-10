@@ -1,8 +1,10 @@
-using System;
 using System.Collections.Generic;
+
+using UnityEngine;
+
 using TurnBaseStrategy.Core;
 using TurnBaseStrategy.Grid;
-using UnityEngine;
+
 
 namespace TurnBaseStrategy.Action
 {
@@ -29,6 +31,15 @@ namespace TurnBaseStrategy.Action
         {
             List<GridPosition> validGridPositionList = GetValidActionGridPostionList();
             return validGridPositionList.Contains(gridPosition);
+        }
+
+        /// <summary>
+        ///  By default, all actions have a cost of 1
+        /// </summary>
+        /// <returns></returns>
+        public virtual int GetActionPointsCost()
+        {
+            return 1;
         }
 
     }

@@ -47,5 +47,10 @@ namespace TurnBaseStrategy.Action
             GridPosition unitGridPosition = unit.GridPosition;
             return new List<GridPosition> { unitGridPosition };
         }
+
+        public override int GetActionPointsCost()
+        {
+            return 2;
+        }
     }
 }

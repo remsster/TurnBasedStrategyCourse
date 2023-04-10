@@ -1,6 +1,6 @@
-using TurnBaseStrategy.Grid;
 using UnityEngine;
 
+using TurnBaseStrategy.Grid;
 using TurnBaseStrategy.Action;
 
 namespace TurnBaseStrategy.Core
@@ -11,6 +11,7 @@ namespace TurnBaseStrategy.Core
         private MoveAction moveAction;
         private SpinAction spinAction;
         private BaseAction[] baseActionArray;
+        private int actionPoints = 2;
 
         public GridPosition GridPosition => gridPosition;
 
@@ -58,14 +59,39 @@ namespace TurnBaseStrategy.Core
         // Custom Methods
         // ----------------------------------------------------------------------------
 
-        public SpinAction GetSpinAction() => spinAction;
-
-        public MoveAction GetMoveAction()
+        // -- Private --
+        private void SpendActionPoints(int amount)
         {
-            return moveAction;
+            actionPoints -= amount;
         }
 
+        // -- Public --
+        public SpinAction GetSpinAction() => spinAction;
+
+        public MoveAction GetMoveAction() => moveAction;
+
         public BaseAction[] GetBaseActionArray() => baseActionArray;
+
+        public bool TrySpendActionPointsToTakeAction(BaseAction baseAction)
+        {
+            if (CanSpendActionPointsToTakeAction(baseAction))
+            {
+                SpendActionPoints(baseAction.GetActionPointsCost());
+                return true;
+            }
+            return false;
+
+        }
+
+        public bool CanSpendActionPointsToTakeAction(BaseAction baseAction)
+        {
+            return actionPoints >= baseAction.GetActionPointsCost();
+        }
+
+        public int GetActionPoints() => actionPoints;
+
+
+
         
 
 
