@@ -25,7 +25,13 @@ namespace TurnBaseStrategy.Action
         private Unit targetUnit;
         private bool canShootBullet;
 
-        public event EventHandler OnShoot;
+        public event EventHandler<OnShootEventArgs> OnShoot;
+
+        public class OnShootEventArgs : EventArgs
+        {
+            public Unit targetUnit;
+            public Unit shootingUnit;
+        }
 
 
         private void Update()
@@ -45,7 +51,6 @@ namespace TurnBaseStrategy.Action
                         Shoot();
                         canShootBullet = false;
                     }
-
                     break;
                 case State.Cooloff:
                     break;
@@ -76,7 +81,7 @@ namespace TurnBaseStrategy.Action
 
         private void Shoot()
         {
-            OnShoot?.Invoke(this, EventArgs.Empty);
+            OnShoot?.Invoke(this, new OnShootEventArgs { targetUnit = targetUnit, shootingUnit = unit});
             targetUnit.Damage();
         }
 

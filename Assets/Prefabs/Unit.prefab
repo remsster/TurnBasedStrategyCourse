@@ -112,6 +112,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 9202475600409535381}
+--- !u!1 &5043470882500147715
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 624561092820633108}
+  m_Layer: 7
+  m_Name: Shoot Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &624561092820633108
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5043470882500147715}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 0.084, z: 0.745}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9197942569504946418}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9202475600409535383
 GameObject:
   m_ObjectHideFlags: 0
@@ -193,7 +224,6 @@ MonoBehaviour:
   rotateSpeed: 10
   stoppingDistance: 0.1
   maxMoveDistance: 4
-  unitAnimator: {fileID: 9142746017948613805}
 --- !u!114 &5761592515470793907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,6 +263,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 9142746017948613805}
+  shootPointTransform: {fileID: 624561092820633108}
+  bulletProjectilePrefab: {fileID: 4191087404142572812, guid: 295d6232ea4314c46adc44cf562f06c0,
+    type: 3}
 --- !u!1001 &9202475600492211102
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -338,6 +371,12 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 25af05085d2957e42ac6b80b69ddd26a, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c25ac4fdc903e7d49a7520930673ecd6, type: 3}
+--- !u!4 &9197942569504946418 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4620998167008108, guid: c25ac4fdc903e7d49a7520930673ecd6,
+    type: 3}
+  m_PrefabInstance: {fileID: 9202475600492211102}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9202475601232450293
 PrefabInstance:
   m_ObjectHideFlags: 0
