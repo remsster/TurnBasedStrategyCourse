@@ -21,6 +21,19 @@ namespace TurnBaseStrategy.Action
             unit = GetComponent<Unit>(); 
         }
 
+        protected void ActionStart(System.Action<bool> onActionComplete)
+        {
+            isActive = true;
+            this.onActionComplete = onActionComplete;
+        }
+
+        protected void ActionComplete()
+        {
+            isActive = false;
+            // on action complete sets isBusy to false
+            onActionComplete(false);
+        }
+
         public abstract string GetActionName();
 
         public abstract void TakeAction(GridPosition gridPosition, System.Action<bool> onActionComplete);

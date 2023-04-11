@@ -94,6 +94,13 @@ namespace TurnBaseStrategy.Core
 
         public BaseAction[] GetBaseActionArray() => baseActionArray;
 
+        public Vector3 GetWorldPosition() => transform.position;
+
+        public void Damage()
+        {
+            Debug.Log(transform + " damaged!");
+        }
+
         public bool TrySpendActionPointsToTakeAction(BaseAction baseAction)
         {
             if (CanSpendActionPointsToTakeAction(baseAction))

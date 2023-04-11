@@ -13,8 +13,6 @@ namespace TurnBaseStrategy.Action
 
         //public delegate void SpinCompleteDelegate(bool value);
 
-
-
         private void Update()
         {
             if (!isActive) return;
@@ -25,8 +23,7 @@ namespace TurnBaseStrategy.Action
             totalSpinAmount += spinAmount;
             if (totalSpinAmount >= 360f)
             {
-                isActive = false;
-                base.onActionComplete(false);
+                ActionComplete();
             }
         }
 
@@ -35,10 +32,8 @@ namespace TurnBaseStrategy.Action
         //public void Spin(SpinCompleteDelegate onSpinComplete)
         public override void TakeAction(GridPosition gridPosition, Action<bool> onActionComplete)
         {
-            isActive = true;
+            ActionStart(onActionComplete);
             totalSpinAmount = 0;
-            this.onActionComplete = onActionComplete;
-            
         }
 
         public override List<GridPosition> GetValidActionGridPostionList()

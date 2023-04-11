@@ -45,6 +45,9 @@ namespace TurnBaseStrategy.Grid
         }
 
         public bool HasAnyUnit() => unitList.Count > 0;
+
+        public Unit GetUnit() => (HasAnyUnit()) ? unitList[0] : null;
+        
             
     }
 }

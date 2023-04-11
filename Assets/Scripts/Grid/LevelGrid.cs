@@ -78,6 +78,14 @@ namespace TurnBaseStrategy.Grid
             GridObject gridObject = gridSystem.GetGridObject(gridPosition);
             return gridObject.HasAnyUnit();
         }
+
+        public Unit GetUnitAtGridPosition(GridPosition gridPosition)
+        {
+            GridObject gridObject = gridSystem.GetGridObject(gridPosition);
+            return gridObject.GetUnit();
+        }
+
+        
     }
 }
 
