@@ -1,12 +1,15 @@
 using System;
-using UnityEngine;
 
+using UnityEngine;
 
 namespace TurnBaseStrategy.Core
 {
     public class TurnSystem : MonoBehaviour
     {
         private int turnNumber = 1;
+        private bool isPlayerTurn = true;
+
+        public bool IsPlayerTurn => isPlayerTurn;
 
         public int TurnNumber => turnNumber;
 
@@ -28,6 +31,7 @@ namespace TurnBaseStrategy.Core
         public void NextTurn()
         {
             turnNumber++;
+            isPlayerTurn = !isPlayerTurn;
             OnTurnChanged?.Invoke(this, EventArgs.Empty);
         }
     }

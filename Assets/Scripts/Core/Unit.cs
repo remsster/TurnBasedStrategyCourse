@@ -8,6 +8,10 @@ namespace TurnBaseStrategy.Core
 {
     public class Unit : MonoBehaviour
     {
+
+        [SerializeField] private bool isEnemy;
+
+
         private const int ACTION_POINTS_MAX = 2;
 
         private GridPosition gridPosition;
@@ -19,6 +23,7 @@ namespace TurnBaseStrategy.Core
         public static event EventHandler OnAnyActionPointsChanged;
 
         public GridPosition GridPosition => gridPosition;
+        public bool IsEnemy => isEnemy;
 
         // ----------------------------------------------------------------------------
         // Unity Enging Methods
@@ -74,8 +79,12 @@ namespace TurnBaseStrategy.Core
 
         private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
         {
-            actionPoints = ACTION_POINTS_MAX;
-            OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
+            if (isEnemy && !TurnSystem.Instance.IsPlayerTurn || !isEnemy && TurnSystem.Instance.IsPlayerTurn)
+            {
+                actionPoints = ACTION_POINTS_MAX;
+                OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
+
+            }
         }
 
         // -- Public --

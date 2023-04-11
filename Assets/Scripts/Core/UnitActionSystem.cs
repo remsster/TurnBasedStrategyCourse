@@ -48,6 +48,7 @@ namespace TurnBaseStrategy.Core
         private void Update()
         {
             if (isBusy) return;
+            if (!TurnSystem.Instance.IsPlayerTurn) return;
             // returns if mouse is over a ui button
             if (EventSystem.current.IsPointerOverGameObject()) { return; }
             if (TryHandleUnitSelection()) { return; }   
@@ -69,14 +70,11 @@ namespace TurnBaseStrategy.Core
                 {
                     if (selectedUnit.TrySpendActionPointsToTakeAction(selectedAction))
                     {
-                        SetBusy(true);
+                        SetBusy(true); 
                         selectedAction.TakeAction(mouseGridPosition,SetBusy);
                         OnActionStart?.Invoke(this,EventArgs.Empty);
                     }
                 }
-
-
-                
             }
         }
 
@@ -97,6 +95,7 @@ namespace TurnBaseStrategy.Core
                     if(raycastHit.transform.TryGetComponent<Unit>(out Unit unit))
                     {
                         if (unit == selectedUnit) return false;
+                        if (unit.IsEnemy) return false;
                         SetSelectedUnit(unit);
                         return true;
                     }
