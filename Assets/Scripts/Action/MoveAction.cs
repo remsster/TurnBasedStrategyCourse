@@ -1,8 +1,9 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 using TurnBaseStrategy.Grid;
-
+using UnityEngine.EventSystems;
 
 namespace TurnBaseStrategy.Action
 {
@@ -14,10 +15,10 @@ namespace TurnBaseStrategy.Action
         [SerializeField] private float stoppingDistance = .1f;
         [SerializeField] private int maxMoveDistance = 4;
 
-
-        [SerializeField] private Animator unitAnimator;
-
         private Vector3 targetPosition;
+
+        public event EventHandler OnStartMoving;
+        public event EventHandler OnStopMoving;
 
 
         // ----------------------------------------------------------------------------
@@ -37,11 +38,10 @@ namespace TurnBaseStrategy.Action
             if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
             {
                 transform.position += moveDirection * moveSpeed * Time.deltaTime;
-                unitAnimator.SetBool("IsWalking", true);
             }
             else
             {
-                unitAnimator.SetBool("IsWalking", false);
+                OnStopMoving?.Invoke(this, EventArgs.Empty);
                 ActionComplete();
             }
             transform.forward = Vector3.Lerp(transform.forward, moveDirection, rotateSpeed * Time.deltaTime);
@@ -58,6 +58,7 @@ namespace TurnBaseStrategy.Action
         {
             ActionStart(onActionComplete);
             this.targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+            OnStartMoving?.Invoke(this, EventArgs.Empty);
         }
 
         public override List<GridPosition> GetValidActionGridPostionList()
