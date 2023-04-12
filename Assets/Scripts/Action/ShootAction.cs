@@ -34,6 +34,9 @@ namespace TurnBaseStrategy.Action
             public Unit shootingUnit;
         }
 
+        // ----------------------------------------------------------------------------
+        // Unity Engine Methods
+        // ----------------------------------------------------------------------------
 
         private void Update()
         {
@@ -60,6 +63,11 @@ namespace TurnBaseStrategy.Action
             if (stateTimer <= 0) { NextState(); }
         }
 
+        // ----------------------------------------------------------------------------
+        // Custom Methods
+        // ----------------------------------------------------------------------------
+
+        // -- Private --
         private void NextState()
         {
             switch (state)
@@ -86,7 +94,10 @@ namespace TurnBaseStrategy.Action
             targetUnit.Damage(damage);
         }
 
+        // -- Public --
         public override string GetActionName() => "Shoot";
+
+        public Unit GetTargetUnit() => targetUnit;
 
         public override List<GridPosition> GetValidActionGridPostionList()
         {
@@ -122,15 +133,14 @@ namespace TurnBaseStrategy.Action
 
         public override void TakeAction(GridPosition gridPosition, Action<bool> onActionComplete)
         {
-            ActionStart(onActionComplete);
-
             targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
 
             state = State.Amining;
             float aminingStateTime = 1f;
             stateTimer = aminingStateTime;
-
             canShootBullet = true;
+
+            ActionStart(onActionComplete);
         }
     }
 }

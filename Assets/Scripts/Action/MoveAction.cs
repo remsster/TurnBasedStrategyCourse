@@ -56,9 +56,9 @@ namespace TurnBaseStrategy.Action
 
         public override void TakeAction(GridPosition gridPosition, System.Action<bool> onActionComplete)
         {
-            ActionStart(onActionComplete);
             this.targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
             OnStartMoving?.Invoke(this, EventArgs.Empty);
+            ActionStart(onActionComplete);
         }
 
         public override List<GridPosition> GetValidActionGridPostionList()
