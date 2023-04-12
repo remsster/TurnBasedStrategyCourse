@@ -12,6 +12,7 @@ namespace TurnBaseStrategy.Action
     {
         [SerializeField] private int maxShootDistance = 7;
         [SerializeField] private float aimRotationSpeed = 10f;
+        [SerializeField] private int damage = 40;
 
         private enum State
         {
@@ -82,7 +83,7 @@ namespace TurnBaseStrategy.Action
         private void Shoot()
         {
             OnShoot?.Invoke(this, new OnShootEventArgs { targetUnit = targetUnit, shootingUnit = unit});
-            targetUnit.Damage();
+            targetUnit.Damage(damage);
         }
 
         public override string GetActionName() => "Shoot";

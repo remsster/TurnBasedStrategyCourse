@@ -10,6 +10,7 @@ namespace TurnBaseStrategy.Core
     {
 
         [SerializeField] private bool isEnemy;
+        [SerializeField] private int actionPoints = 2;
 
 
         private const int ACTION_POINTS_MAX = 2;
@@ -18,7 +19,7 @@ namespace TurnBaseStrategy.Core
         private MoveAction moveAction;
         private SpinAction spinAction;
         private BaseAction[] baseActionArray;
-        private int actionPoints = 2;
+        private HealthSystem healthSystem;
 
         public static event EventHandler OnAnyActionPointsChanged;
 
@@ -34,7 +35,7 @@ namespace TurnBaseStrategy.Core
             moveAction = GetComponent<MoveAction>();
             spinAction = GetComponent<SpinAction>();
             baseActionArray = GetComponents<BaseAction>();
-            
+            healthSystem = GetComponent<HealthSystem>();
         }
 
         private void Start()
@@ -42,6 +43,7 @@ namespace TurnBaseStrategy.Core
             gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
             LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
             TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
+            healthSystem.OnDead += HealthSystem_OnDead;
         }
 
         private void Update()
@@ -87,6 +89,12 @@ namespace TurnBaseStrategy.Core
             }
         }
 
+        private void HealthSystem_OnDead(object sender, EventArgs e)
+        {
+            LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition,this);
+            Destroy(gameObject);
+        }
+
         // -- Public --
         public SpinAction GetSpinAction() => spinAction;
 
@@ -96,9 +104,9 @@ namespace TurnBaseStrategy.Core
 
         public Vector3 GetWorldPosition() => transform.position;
 
-        public void Damage()
+        public void Damage(int damageAmount)
         {
-            Debug.Log(transform + " damaged!");
+            healthSystem.Damage(damageAmount);
         }
 
         public bool TrySpendActionPointsToTakeAction(BaseAction baseAction)
