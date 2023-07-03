@@ -28,6 +28,8 @@ namespace TurnBaseStrategy.Action
 
         public event EventHandler<OnShootEventArgs> OnShoot;
 
+        
+
         public class OnShootEventArgs : EventArgs
         {
             public Unit targetUnit;
@@ -95,6 +97,9 @@ namespace TurnBaseStrategy.Action
         }
 
         // -- Public --
+
+        public int GetMaxShootDistance() => maxShootDistance;
+
         public override string GetActionName() => "Shoot";
 
         public Unit GetTargetUnit() => targetUnit;

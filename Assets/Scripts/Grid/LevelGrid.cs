@@ -3,6 +3,7 @@ using UnityEngine;
 
 using TurnBaseStrategy.Core;
 using UnityEngine.UI;
+using System;
 
 namespace TurnBaseStrategy.Grid
 {
@@ -13,6 +14,8 @@ namespace TurnBaseStrategy.Grid
         private GridSystem gridSystem;
 
         public static LevelGrid Instance { get; private set; }
+
+        public event EventHandler OnAnyUnitMovedGridPosition;
 
         // ----------------------------------------------------------------------------
         // Unity Enging Methods
@@ -69,6 +72,7 @@ namespace TurnBaseStrategy.Grid
         {
             RemoveUnitAtGridPosition(from,unit);
             AddUnitAtGridPosition(to, unit);
+            OnAnyUnitMovedGridPosition?.Invoke(this, EventArgs.Empty);
         }
 
         public bool IsValidGridPosition(GridPosition gridPosition) => gridSystem.IsValidGridPosition(gridPosition);
