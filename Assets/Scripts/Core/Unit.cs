@@ -1,8 +1,8 @@
+using System;
 using UnityEngine;
 
 using TurnBaseStrategy.Grid;
 using TurnBaseStrategy.Action;
-using System;
 
 namespace TurnBaseStrategy.Core
 {
@@ -22,6 +22,8 @@ namespace TurnBaseStrategy.Core
         private HealthSystem healthSystem;
 
         public static event EventHandler OnAnyActionPointsChanged;
+        public static event EventHandler OnAnyUnitSpawned;
+        public static event EventHandler OnAnyUnitDead;
 
         public GridPosition GridPosition => gridPosition;
         public bool IsEnemy => isEnemy;
@@ -44,6 +46,7 @@ namespace TurnBaseStrategy.Core
             LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
             TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
             healthSystem.OnDead += HealthSystem_OnDead;
+            OnAnyUnitSpawned?.Invoke(this,EventArgs.Empty);
         }
 
         private void Update()
@@ -92,6 +95,7 @@ namespace TurnBaseStrategy.Core
         {
             LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition,this);
             Destroy(gameObject);
+            OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
         }
 
         // -- Public --

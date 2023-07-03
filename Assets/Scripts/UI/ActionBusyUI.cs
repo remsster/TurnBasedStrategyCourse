@@ -11,12 +11,23 @@ namespace TurnBaseStrategy.UI
         private void Start()
         {
             UnitActionSystem.Instance.OnBusyChanged += UnitActionSystem_IsBusyChanged;
-            actionBusy.SetActive(false);
+            Hide();
         }
 
-        private void UnitActionSystem_IsBusyChanged(object sender, bool value)
+        private void UnitActionSystem_IsBusyChanged(object sender, bool isBusy)
         {
-            actionBusy.SetActive(value);
+            if (isBusy) Show();
+            else Hide();
+        }
+
+        private void Show()
+        {
+            actionBusy.SetActive(true);
+        }
+
+        private void Hide()
+        {
+            actionBusy.SetActive(false);
         }
 
     }

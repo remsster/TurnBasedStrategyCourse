@@ -4,7 +4,6 @@ using UnityEngine.EventSystems;
 
 using TurnBaseStrategy.Grid;
 using TurnBaseStrategy.Action;
-using System.Runtime.CompilerServices;
 
 namespace TurnBaseStrategy.Core
 {
@@ -70,17 +69,23 @@ namespace TurnBaseStrategy.Core
                 {
                     if (selectedUnit.TrySpendActionPointsToTakeAction(selectedAction))
                     {
-                        SetBusy(true); 
-                        selectedAction.TakeAction(mouseGridPosition,SetBusy);
+                        SetBusy();
+                        selectedAction.TakeAction(mouseGridPosition,ClearBusy);
                         OnActionStart?.Invoke(this,EventArgs.Empty);
                     }
                 }
             }
         }
 
-        private void SetBusy(bool value)
+        private void SetBusy()
         {
-            isBusy = value;
+            isBusy = true;
+            OnBusyChanged?.Invoke(this, isBusy);
+        }
+
+        private void ClearBusy()
+        {
+            isBusy = false;
             OnBusyChanged?.Invoke(this, isBusy);
         }
         

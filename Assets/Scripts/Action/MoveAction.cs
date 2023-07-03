@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using TurnBaseStrategy.Grid;
-using UnityEngine.EventSystems;
 
 namespace TurnBaseStrategy.Action
 {
@@ -54,7 +53,7 @@ namespace TurnBaseStrategy.Action
         public override string GetActionName() => "Move";
         
 
-        public override void TakeAction(GridPosition gridPosition, System.Action<bool> onActionComplete)
+        public override void TakeAction(GridPosition gridPosition, System.Action onActionComplete)
         {
             this.targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
             OnStartMoving?.Invoke(this, EventArgs.Empty);

@@ -13,7 +13,7 @@ namespace TurnBaseStrategy.Action
 
         protected bool isActive;
 
-        protected System.Action<bool> onActionComplete;
+        protected System.Action onActionComplete;
 
         public static event System.EventHandler OnAnyActionStarted;
         public static event System.EventHandler OnAnyActionCompleted;
@@ -24,7 +24,7 @@ namespace TurnBaseStrategy.Action
             unit = GetComponent<Unit>(); 
         }
 
-        protected void ActionStart(System.Action<bool> onActionComplete)
+        protected void ActionStart(System.Action onActionComplete)
         {
             isActive = true;
             this.onActionComplete = onActionComplete;
@@ -35,7 +35,7 @@ namespace TurnBaseStrategy.Action
         {
             isActive = false;
             // on action complete sets isBusy to false
-            onActionComplete(false);
+            onActionComplete();
             OnAnyActionCompleted?.Invoke(this, System.EventArgs.Empty);
         }
 
@@ -43,7 +43,7 @@ namespace TurnBaseStrategy.Action
 
         public abstract string GetActionName();
 
-        public abstract void TakeAction(GridPosition gridPosition, System.Action<bool> onActionComplete);
+        public abstract void TakeAction(GridPosition gridPosition, System.Action onActionComplete);
 
         public abstract List<GridPosition> GetValidActionGridPostionList();
 

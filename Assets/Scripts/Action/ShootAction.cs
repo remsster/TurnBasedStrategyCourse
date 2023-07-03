@@ -136,7 +136,7 @@ namespace TurnBaseStrategy.Action
             return validGridPositionList;
         }
 
-        public override void TakeAction(GridPosition gridPosition, Action<bool> onActionComplete)
+        public override void TakeAction(GridPosition gridPosition, System.Action onActionComplete)
         {
             targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
 

@@ -30,7 +30,7 @@ namespace TurnBaseStrategy.Action
         public override string GetActionName() => "Spin";
 
         //public void Spin(SpinCompleteDelegate onSpinComplete)
-        public override void TakeAction(GridPosition gridPosition, Action<bool> onActionComplete)
+        public override void TakeAction(GridPosition gridPosition, System.Action onActionComplete)
         {
             totalSpinAmount = 0;
             ActionStart(onActionComplete);
